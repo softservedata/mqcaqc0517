@@ -2,7 +2,7 @@
 
 
 
-
+Every fence, and every tree,
 Is as white as white can be.
 Pointing out the way we came,
 
