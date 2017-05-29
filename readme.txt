@@ -9,5 +9,5 @@ Pointing out the way we came,
 All across the fields there be
 
 
-By the footprints in the snow,
+By the footprints in the snow.
 Where it is the children go.
