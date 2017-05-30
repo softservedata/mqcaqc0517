@@ -15,7 +15,7 @@ public class Maximum {
 			System.out.print("y=");
 			y = Integer.parseInt(br.readLine());
 		} catch (Exception e) { // NumberFormatException
-			System.out.println("I/O Error. e=" + e.toString());
+			System.out.println("I/O Error. e = " + e.toString());
 			//System.exit(1);
 		}
 		if (x > y) {
