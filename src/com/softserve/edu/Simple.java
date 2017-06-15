@@ -15,7 +15,7 @@ public class Simple {
 		System.setProperty("webdriver.chrome.driver",
 				"lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();	
-		//driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//
 		driver.get("https://www.google.com.ua");
 		Thread.sleep(1000);
