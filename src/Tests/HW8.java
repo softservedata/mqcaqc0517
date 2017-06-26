@@ -1,29 +1,24 @@
 package Tests;
 
-import static org.junit.Assert.*;
-
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
-import com.sun.org.apache.bcel.internal.generic.Select;
 
 public class HW8 {
 
 	@Test
 	public void testA() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "./lib/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
+		//WebDriver driver = new ChromeDriver();
 
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
-		driver = new ChromeDriver(options);
+		WebDriver driver = new ChromeDriver(options);
 
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		//
