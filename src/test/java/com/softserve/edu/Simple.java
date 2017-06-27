@@ -10,13 +10,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 public class Simple {
 
 	// @Test
 	public void testA() throws Exception {
 		System.setProperty("webdriver.chrome.driver",
-				"lib/chromedriver.exe");
+				Simple.class.getResource("./lib/chromedriver.exe").getPath().substring(1));
+		// "./lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//
@@ -36,7 +36,11 @@ public class Simple {
 
 	@Test
 	public void googleSearch2() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		String path = Simple.class.getResource("/lib/chromedriver.exe").getPath().substring(1);
+		System.out.println("***Simple.class.getResource = "+ path);
+		System.setProperty("webdriver.chrome.driver",
+				Simple.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+		        //"./lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//
@@ -44,14 +48,14 @@ public class Simple {
 		Thread.sleep(1000);
 		driver.findElement(By.id("lst-ib")).clear();
 		driver.findElement(By.id("lst-ib"))
-			//.sendKeys("Selenium IDE Download");
-			.sendKeys("Selenium IDE Download" + Keys.ENTER);
+				// .sendKeys("Selenium IDE Download");
+				.sendKeys("Selenium IDE Download" + Keys.ENTER);
 		driver.findElement(By.id("lst-ib")).submit();
 		// driver.findElement(By.id("_fZl")).click();
 		//
-        Thread.sleep(1000);
-        ((JavascriptExecutor)driver).executeScript("alert('Ha-Ha-Ha')");
-        Thread.sleep(4000);
-        driver.switchTo().alert().accept();
+		Thread.sleep(1000);
+		((JavascriptExecutor) driver).executeScript("alert('Ha-Ha-Ha')");
+		Thread.sleep(4000);
+		driver.switchTo().alert().accept();
 	}
 }
