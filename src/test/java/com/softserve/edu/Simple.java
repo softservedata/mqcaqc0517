@@ -36,8 +36,9 @@ public class Simple {
 
 	@Test
 	public void googleSearch2() throws Exception {
-		String path = Simple.class.getResource("/lib/chromedriver.exe").getPath().substring(1);
+		String path = Simple.class.getResource("/lib/chromedriver.exe").getPath();
 		System.out.println("***Simple.class.getResource = "+ path);
+		//
 		System.setProperty("webdriver.chrome.driver",
 				Simple.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
 		        //"./lib/chromedriver.exe");

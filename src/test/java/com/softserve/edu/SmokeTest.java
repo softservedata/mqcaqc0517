@@ -17,7 +17,9 @@ public class SmokeTest {
 	// @Test
 	public void AdminLogin() throws Exception {
 		// Precondition
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",
+				SmokeTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+				//"lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.get("http://regres.herokuapp.com/login");
@@ -47,7 +49,9 @@ public class SmokeTest {
 	// @Test
 	public void ExampleLogin() throws Exception {
 		// Precondition
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",
+				SmokeTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+				//"lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.get("http://regres.herokuapp.com/login");
