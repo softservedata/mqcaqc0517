@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SmokeTest {
@@ -74,7 +75,9 @@ public class SmokeTest {
 
 	//@Test
 	public void testJS() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",
+				SmokeTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+				//"lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//
@@ -99,9 +102,11 @@ public class SmokeTest {
 		driver.quit();
 	}
 
-	@Test
+	//@Test
 	public void testSelect() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",
+				SmokeTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+				//"lib/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//
@@ -114,4 +119,36 @@ public class SmokeTest {
 		Thread.sleep(4000);
 		driver.quit();
 	}
+	
+	@DataProvider(parallel = true)
+	public Object[][] loginI18N() {
+		return new Object[][] {
+			{"українська", "Логін"},
+			{"русский", "Логин"},
+			{"english", "Login"},
+		};
+  }
+
+	@Test(dataProvider = "loginI18N")
+	public void testI18N(String language, String loginLabel) throws Exception {
+		System.setProperty("webdriver.chrome.driver",
+				SmokeTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+				//"lib/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		//
+		driver.get("http://regres.herokuapp.com/login");
+		Thread.sleep(1000);
+		//
+		WebElement webElement = driver.findElement(By.id("changeLanguage"));
+		Select languageSelect = new Select(webElement);
+		//
+		languageSelect.selectByVisibleText(language);
+		Thread.sleep(2000);
+		Assert.assertEquals(driver.findElement(By.cssSelector("label[for='inputEmail']")).getText(),
+				loginLabel);
+		Thread.sleep(4000);
+		driver.quit();
+	}
 }
+
