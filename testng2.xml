@@ -18,17 +18,22 @@
 			<!-- <include name="testApp" /> -->
 			<!-- </methods> -->
 			<!-- </class> -->
-			<class name="com.softserve.edu.AppTest">
-				<methods>
-					<include name="testApp1" />
-				</methods>
-			</class>
-			<class name="com.softserve.edu.Simple">
-				<methods>
-					<include name="googleSearch2" />
-				</methods>
-			</class>
+<!-- 			<class name="com.softserve.edu.AppTest"> -->
+<!-- 				<methods> -->
+<!-- 					<include name="testApp1" /> -->
+<!-- 				</methods> -->
+<!-- 			</class> -->
+<!-- 			<class name="com.softserve.edu.Simple"> -->
+<!-- 				<methods> -->
+<!-- 					<include name="googleSearch2" /> -->
+<!-- 				</methods> -->
+<!-- 			</class> -->
 			<!-- <class name="com.softserve.edu.registrator.Browsers" /> -->
+			<class name="com.softserve.edu.registrator.tests.LoginTest">
+				<methods>
+					<include name="checkAdminLogon" />
+				</methods>
+			</class>
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->
