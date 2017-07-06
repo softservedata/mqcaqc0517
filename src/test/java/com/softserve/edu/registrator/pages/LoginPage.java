@@ -1,11 +1,38 @@
 package com.softserve.edu.registrator.pages;
 
+import java.util.HashMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LoginPage {
-	//
+import com.softserve.edu.registrator.data.IUser;
+
+public class LoginPage extends ATopPage {
+	
+    public static enum LoginPageL10n {
+    	LOGIN_LABEL("Логін","Логин","Login"),
+        PASSWORD_LABEL("Пароль","Пароль","Password"),
+		SUBMIT_BUTTON("Увійти","Войти","Sign in");
+        //
+        private HashMap<ChangeLanguageFields, String> field;
+
+        private LoginPageL10n(String... localization) {
+        	this.field = new HashMap<ChangeLanguageFields, String>();
+        	int i = 0;
+        	for (ChangeLanguageFields language : ChangeLanguageFields.values()) {
+        		this.field.put(language, localization[i]);
+        		i++;
+        	}
+        }
+
+        public String getLocalization(ChangeLanguageFields language) {
+            return this.field.get(language).trim();
+        }
+    }
+    
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 	public static final String SRC_ATTRIBUTE = "src";
 	public static final String VALUE_ATTRIBUTE = "value";
 	public static final String NAME_IMAGE = "ukraine_logo2.gif";
@@ -20,7 +47,7 @@ public class LoginPage {
 	
 	// Fields
 	//private WebDriver driver;
-    protected WebDriver driver;
+    //protected WebDriver driver;
 	//
     private WebElement loginLabel;
     private WebElement loginInput;
@@ -30,7 +57,8 @@ public class LoginPage {
     private WebElement logo;
 
 	public LoginPage(WebDriver driver) {
-		this.driver = driver;
+		super(driver);
+		//this.driver = driver;
 		//
 		this.loginLabel = driver.findElement(By.xpath(LOGIN_LABEL_XPATH));
 		this.loginInput = driver.findElement(By.id(LOGIN_INPUT_ID));
@@ -153,12 +181,12 @@ public class LoginPage {
 //    }
 
     // TODO Develop User class
-    //private void setLoginData(IUser user) {
-    private void setLoginData(String login, String password) {
-		//setLoginInputClear(user.getLogin());
-		//setPasswordInputClear(user.getPassword());
-		setLoginInputClear(login);
-		setPasswordInputClear(password);
+    private void setLoginData(IUser user) {
+    //private void setLoginData(String login, String password) {
+		setLoginInputClear(user.getLogin());
+		setPasswordInputClear(user.getPassword());
+		//setLoginInputClear(login);
+		//setPasswordInputClear(password);
 		clickSignin();
 	}
 
@@ -168,10 +196,10 @@ public class LoginPage {
 //        return new HomePage(driver);
 //    }
 
-    //public AdminHomePage successAdminLogin(IUser admin) {
-    public AdminHomePage successAdminLogin(String login, String password) {
-		//setLoginData(admin);
-		setLoginData(login, password);
+    public AdminHomePage successAdminLogin(IUser admin) {
+    //public AdminHomePage successAdminLogin(String login, String password) {
+		setLoginData(admin);
+		//setLoginData(login, password);
 		// Return a new page object representing the destination.
 		return new AdminHomePage(driver);
 	}
@@ -183,10 +211,10 @@ public class LoginPage {
 //	}
 //
 	// TODO Develop User class
-	// public ValidatorLoginPage unsuccessfulLogin(IUser invalidUser) {
-	public ValidatorLoginPage unsuccessfulLogin(String login, String password) {
-		// setLoginData(invalidUser);
-		setLoginData(login, password);
+	public ValidatorLoginPage unsuccessfulLogin(IUser invalidUser) {
+	//public ValidatorLoginPage unsuccessfulLogin(String login, String password) {
+		setLoginData(invalidUser);
+		//setLoginData(login, password);
 		return new ValidatorLoginPage(driver); // return this;
 	}
 
