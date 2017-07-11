@@ -12,6 +12,7 @@ import com.softserve.edu.registrator.data.IUser;
 import com.softserve.edu.registrator.data.UserRepository;
 import com.softserve.edu.registrator.pages.AdminHomePage;
 import com.softserve.edu.registrator.pages.LoginPage;
+import com.softserve.edu.registrator.pages.PassiveEditUserPage;
 import com.softserve.edu.registrator.pages.ValidatorLoginPage;
 
 public class LoginTest {
@@ -29,12 +30,12 @@ public class LoginTest {
 	public Object[][] adminUsers() {
 		return new Object[][] {
 			{ UserRepository.get().admin() },
-			{ UserRepository.get().adminWork() },
-			{ UserRepository.get().registrator() },
+			//{ UserRepository.get().adminWork() },
+			//{ UserRepository.get().registrator() },
 		};
 	}
 
-	@Test(dataProvider = "adminUsers")
+	//@Test(dataProvider = "adminUsers")
 	//public void checkAdminLogon(String login, String password) throws Exception {
 	public void checkAdminLogon(IUser admin) throws Exception {
 		// Precondition
@@ -102,6 +103,45 @@ public class LoginTest {
 		Thread.sleep(2000);
 		//
 		// Return to previous state
+		driver.quit();
+	}
+
+	@DataProvider//(parallel = true)
+	public Object[][] checkUsers() {
+		return new Object[][] {
+			{ UserRepository.get().admin(), UserRepository.get().registrator() },
+		};
+	}
+
+	@Test(dataProvider = "checkUsers")
+	public void checkAdminLogon(IUser adminUser, IUser checkUser) throws Exception {
+		// Precondition
+		System.setProperty("webdriver.chrome.driver",
+				LoginTest.class.getResource("/lib/chromedriver.exe").getPath().substring(1));
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.get("http://regres.herokuapp.com/login");
+		Thread.sleep(2000);
+		//
+		// Steps
+        //PassiveEditUserPage passiveEditUserPage = Application.get().load()
+		PassiveEditUserPage passiveEditUserPage = new LoginPage(driver)
+                .successAdminLogin(adminUser)
+                .gotoActiveUsers()
+                .gotoPassiveEditUser(checkUser);
+        Thread.sleep(2000);
+        //
+		// Check
+        Assert.assertEquals(passiveEditUserPage.getEmailInputText(),
+        		checkUser.getEmail());
+        Thread.sleep(2000);
+		//
+		// Return to previous state
+		LoginPage loginPage = passiveEditUserPage.logout();
+		Thread.sleep(2000);
+		//
+		Assert.assertTrue(loginPage.getLogoAttributeSrcText().toLowerCase().contains(LoginPage.NAME_IMAGE));
+		Thread.sleep(2000);
 		driver.quit();
 	}
 

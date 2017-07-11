@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class ValidatorLoginPage extends LoginPage {
 	//
+	// TODO Add enum for Language
 	public static final String VALIDATOR_MESSAGE = "Неправильний логін або пароль";
 	
 	// Fields

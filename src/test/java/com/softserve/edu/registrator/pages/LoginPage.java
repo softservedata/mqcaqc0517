@@ -174,11 +174,11 @@ public class LoginPage extends ATopPage {
 
     // Business Logic
 
-//    public LoginPage changeLanguage(ChangeLanguageFields language) {
-//    	setChangeLanguage(language);
-//        // Return a new page object representing the destination.
-//        return new LoginPage(driver);
-//    }
+	public LoginPage changeLanguage(ChangeLanguageFields language) {
+		setChangeLanguage(language);
+		// Return a new page object representing the destination.
+		return new LoginPage(driver);
+	}
 
     // TODO Develop User class
     private void setLoginData(IUser user) {

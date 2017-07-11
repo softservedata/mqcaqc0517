@@ -26,6 +26,10 @@ public abstract class ATopPage {
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+	public static final String CLASS_ATTRIBUTE = "class"; 
+    public static final String SRC_ATTRIBUTE = "src"; 
+    public static final String VALUE_ATTRIBUTE = "value"; 
+    
 	// Fields
 
 	protected WebDriver driver;
