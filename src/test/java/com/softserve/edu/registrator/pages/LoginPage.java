@@ -1,10 +1,15 @@
 package com.softserve.edu.registrator.pages;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softserve.edu.registrator.data.IUser;
 
@@ -33,18 +38,22 @@ public class LoginPage extends ATopPage {
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    public static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    private static final String REGISTER_ERROR = "Button Register not Found";
+	//
 	public static final String SRC_ATTRIBUTE = "src";
 	public static final String VALUE_ATTRIBUTE = "value";
 	public static final String NAME_IMAGE = "ukraine_logo2.gif";
 	//
     private static final String LOGIN_LABEL_XPATH ="//label[contains(@for,'inputEmail')]";
-    private static final String LOGIN_LABEL_CSS ="label[for='inputEmail']";
+    //private static final String LOGIN_LABEL_CSS ="label[for='inputEmail']";
     private static final String LOGIN_INPUT_ID ="login";
     private static final String PASSWORD_LABEL_XPATH ="//label[contains(@for,'inputPassword')]";
     private static final String PASSWORD_INPUT_ID ="password";
     private static final String SIGNIN_CSS ="button.btn.btn-primary";
     private static final String LOGO_CSSSELECTOR ="img.login_logo.col-md-8.col-xs-12";
-	
+	private static final String REGISTER_BUTTON_CSSSELECTOR = "a.btn.btn-success";
+
 	// Fields
 	//private WebDriver driver;
     //protected WebDriver driver;
@@ -55,6 +64,7 @@ public class LoginPage extends ATopPage {
     private WebElement passwordInput;
     private WebElement signin;
     private WebElement logo;
+	private List<WebElement> register;
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -102,6 +112,32 @@ public class LoginPage extends ATopPage {
 		//return driver.findElement(By.cssSelector(LOGO_CSSSELECTOR));
 	}
 
+	public boolean isRegisterExist() {
+		register = driver.findElements(By.cssSelector(REGISTER_BUTTON_CSSSELECTOR));
+		return register.size() > 0;
+		/*
+		boolean result = false;
+		try {
+			result = !(new WebDriverWait(driver, 20))
+				.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(REGISTER_BUTTON_CSSSELECTOR)));
+		} catch(TimeoutException e) {
+			result = (new WebDriverWait(driver, 20))
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(REGISTER_BUTTON_CSSSELECTOR)))
+					.size() > 0;
+		}
+		return result;
+		*/
+	}
+
+	public WebElement getRegister() {
+		if (!isRegisterExist()) {
+			throw new RuntimeException(REGISTER_ERROR);
+		}
+		//return register.get(0);
+		return (new WebDriverWait(driver, 20))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(REGISTER_BUTTON_CSSSELECTOR)));
+	}
+
 	// Functional
 	
 	public String getLoginLabelText() {
@@ -130,6 +166,10 @@ public class LoginPage extends ATopPage {
 
 	public String getLogoAttributeSrcText() {
 		return getLogoAttributeText(SRC_ATTRIBUTE);
+	}
+
+	public String getRegisterText() {
+		return getRegister().getText().trim();
 	}
 
 	// set Data
@@ -172,6 +212,10 @@ public class LoginPage extends ATopPage {
 		getSignin().click();
 	}
 
+	public void clickRegister() {
+		getRegister().click();
+	}
+
     // Business Logic
 
 	public LoginPage changeLanguage(ChangeLanguageFields language) {
@@ -183,11 +227,18 @@ public class LoginPage extends ATopPage {
     // TODO Develop User class
     private void setLoginData(IUser user) {
     //private void setLoginData(String login, String password) {
+    	logger.debug("Start setLoginData()");
+    	//
+    	logger.trace("Before setLoginInputClear(), user.getLogin() = " + user.getLogin());
 		setLoginInputClear(user.getLogin());
+    	logger.trace("Before setPasswordInputClear(), user.getPassword() = " + user.getPassword());
 		setPasswordInputClear(user.getPassword());
 		//setLoginInputClear(login);
 		//setPasswordInputClear(password);
+    	logger.trace("Before clickSignin()");
 		clickSignin();
+		//
+		logger.debug("Done setLoginData()");
 	}
 
 //    public HomePage successUserLogin(IUser user) {

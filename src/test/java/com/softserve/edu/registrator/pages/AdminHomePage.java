@@ -207,6 +207,11 @@ public class AdminHomePage extends ACommonPage {
         return new ActiveUsersPage(driver);
      }
 
+	public SettingsPage gotoSettingsPage() {
+		clickSettings();
+		return new SettingsPage(driver);
+	}
+
     // public RegisteredUsersHomePage gotoRegisteredUsers() {
     // clickNewUser();
     // return new RegisteredUsersHomePage(driver);

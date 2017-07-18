@@ -1,5 +1,7 @@
 package com.softserve.edu.registrator.tests;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -12,10 +14,12 @@ import com.softserve.edu.registrator.pages.Application;
 import com.softserve.edu.registrator.pages.LoginPage;
 import com.softserve.edu.registrator.pages.LoginPage.LoginPageL10n;
 import com.softserve.edu.registrator.pages.PassiveEditUserPage;
+import com.softserve.edu.registrator.pages.SettingsPage;
 import com.softserve.edu.registrator.pages.TestRunner;
 import com.softserve.edu.registrator.pages.ValidatorLoginPage;
 
 public class LoginTestTestRunner extends TestRunner {
+	public static final Logger logger = LoggerFactory.getLogger(LoginTestTestRunner.class);
 
 	@DataProvider//(parallel = true)
 	public Object[][] adminUsers() {
@@ -26,6 +30,74 @@ public class LoginTestTestRunner extends TestRunner {
 	}
 
 	@Test(dataProvider = "adminUsers")
+	public void checkRegistrationChange(IUser admin) throws Exception {
+		logger.info("Start");
+		// Precondition.
+		//
+		// Test steps.
+		LoginPage loginPage = Application.get().load();
+		Thread.sleep(1000);
+		System.out.println("\t+++ isRegisterExist() = " + loginPage.isRegisterExist());
+		//
+		AdminHomePage adminHomePage = loginPage.successAdminLogin(admin);
+		Thread.sleep(1000);
+		//
+		// Goto SettingsPage
+		SettingsPage settingsPage = adminHomePage.gotoSettingsPage();
+		Thread.sleep(1000);
+		//
+		// Change setting Personal registration
+		settingsPage = settingsPage.gotoPersonalRegistration();
+		Thread.sleep(1000);
+		//
+		// Check.
+		Assert.assertTrue(settingsPage.isSettingSaved());
+		Assert.assertEquals(settingsPage.getSettingSavedText(), SettingsPage.SettingsPageL10n.SETTING_SAVED_MESSAGE
+				.getLocalization(settingsPage.getSelectedLanguage()));
+		Thread.sleep(1000);
+		//
+		// Test steps.
+		// Logout
+		loginPage = settingsPage.logout();
+		Thread.sleep(1000);
+		//
+		// Check.
+		// Check exist or not Button on LoginPage
+		Assert.assertTrue(loginPage.isRegisterExist());
+		Thread.sleep(1000);
+		System.out.println("\t+++ isRegisterExist() = " + loginPage.isRegisterExist());
+		//
+		// Test steps.
+		//settingsPage = loginPage.successAdminLogin(admin).gotoSettingsPage();
+		//Thread.sleep(1000);
+		//
+		// Change setting Personal registration
+		//settingsPage = settingsPage.gotoManualRegistration();
+		//Thread.sleep(1000);
+		//
+		// Check.
+		//Assert.assertTrue(settingsPage.isSettingSaved());
+		//Assert.assertEquals(settingsPage.getSettingSavedText(), SettingsPage.SettingsPageL10n.SETTING_SAVED_MESSAGE
+		//		.getLocalization(settingsPage.getSelectedLanguage()));
+		//Thread.sleep(1000);
+		//
+		// Test steps.
+		// Logout
+		//loginPage = settingsPage.logout();
+		//Thread.sleep(1000);
+		//
+		// Check.
+		// Check exist or not Button on LoginPage
+		//Assert.assertFalse(loginPage.isRegisterExist());
+		//Thread.sleep(2000);
+		//
+		// Return to previous state.
+		// Application.remove();
+		logger.info("Done");
+	}
+
+
+	//@Test(dataProvider = "adminUsers")
 	public void checkAdminLogon(IUser admin) throws Exception {
 		// Steps
 		AdminHomePage adminHomePage = Application.get().load()
