@@ -26,7 +26,8 @@
 <!-- 				</methods> -->
 <!-- 			</class> -->
 			<!-- <class name="com.softserve.edu.registrator.Browsers" /> -->
-			<class name="com.softserve.edu.registrator.tests.LoginTestTestRunner" />
+			<class name="com.softserve.edu.AppTestReport" />
+<!-- 			<class name="com.softserve.edu.registrator.tests.LoginTestTestRunner" /> -->
 <!-- 			<class name="com.softserve.edu.registrator.tests.LoginTest"> -->
 <!-- 				<methods> -->
 <!-- 					<include name="checkAdminLogon" /> -->

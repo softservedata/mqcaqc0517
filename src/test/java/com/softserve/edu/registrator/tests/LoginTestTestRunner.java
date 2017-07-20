@@ -17,6 +17,7 @@ import com.softserve.edu.registrator.pages.PassiveEditUserPage;
 import com.softserve.edu.registrator.pages.SettingsPage;
 import com.softserve.edu.registrator.pages.TestRunner;
 import com.softserve.edu.registrator.pages.ValidatorLoginPage;
+import com.softserve.edu.registrator.tools.ReporterWrapper;
 
 public class LoginTestTestRunner extends TestRunner {
 	public static final Logger logger = LoggerFactory.getLogger(LoginTestTestRunner.class);
@@ -38,6 +39,8 @@ public class LoginTestTestRunner extends TestRunner {
 		LoginPage loginPage = Application.get().load();
 		Thread.sleep(1000);
 		System.out.println("\t+++ isRegisterExist() = " + loginPage.isRegisterExist());
+		ReporterWrapper.get().addSourceCode();
+		ReporterWrapper.get().addScreenShot();
 		//
 		AdminHomePage adminHomePage = loginPage.successAdminLogin(admin);
 		Thread.sleep(1000);
@@ -45,6 +48,8 @@ public class LoginTestTestRunner extends TestRunner {
 		// Goto SettingsPage
 		SettingsPage settingsPage = adminHomePage.gotoSettingsPage();
 		Thread.sleep(1000);
+		ReporterWrapper.get().addSourceCode();
+		ReporterWrapper.get().addScreenShot();
 		//
 		// Change setting Personal registration
 		settingsPage = settingsPage.gotoPersonalRegistration();
